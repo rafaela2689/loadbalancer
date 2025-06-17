@@ -5,10 +5,15 @@ import org.example.loadbalancer.SelectInstanceStrategy;
 import org.example.loadbalancer.exceptions.EmptyInstancesException;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GetInstanceTest {
 
@@ -31,10 +36,15 @@ public class GetInstanceTest {
     public void shouldReturnRandomInstanceFromMultipleInstances() {
         SelectInstanceStrategy strategy = new RandomSelectStrategy();
         LoadBalancer loadBalancer = new LoadBalancer(strategy);
-        for (int i=0; i<6; i++) {
+        List<String> instances = new ArrayList<>();
+        for (int i=0; i<5; i++) {
             loadBalancer.register("192.168.0." + i);
+            instances.add("192.168.0." + i);
         }
-        assertNotEquals("192.168.0.0", loadBalancer.get());
+
+        for (int i=0; i<10; i++) {
+            assertTrue(instances.contains(loadBalancer.get()));
+        }
     }
 
     @Test

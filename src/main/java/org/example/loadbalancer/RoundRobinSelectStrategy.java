@@ -2,7 +2,6 @@ package org.example.loadbalancer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoundRobinSelectStrategy implements SelectInstanceStrategy {
